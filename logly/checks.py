@@ -10,15 +10,11 @@ def check_ip(ips, blacklist, dropna=True):
           
     HOW:  check_ip(df[0], deny[0])
     
-    INPUT: Two series or lists of IP addresses in string format. 
-           NOTE: IP address in non-string format will be dropped 
-           automatically as they will yield error otherwise. 
+    INPUT: Two series or lists of IP addresses
     
     OUTPUT: returns a number of matching records
     
     '''
-
-    ips[ips.map(type) == int]
     
     if dropna is True:
         ips = ips.dropna()
