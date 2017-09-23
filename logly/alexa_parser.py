@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 
 def _alexa_parse(domain):
     
+    '''Helper for Alexa Parser
+    '''
+    
     file_name = 'output/{}.alexa.html'.format(domain)
     
     with open(file_name) as fp:
@@ -29,6 +32,15 @@ def _alexa_parse(domain):
     return l
 
 def alexa_parser(domains):
+    
+    '''Alexa Parser
+    
+    WHAT: Takes in Alexa site info html and gives back 
+    key metrics in return. Handles around 10 pages per second. 
+    
+    HOW: alexa_parser(domains[0])
+    
+    '''
 
     temp = []
     
