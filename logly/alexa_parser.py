@@ -35,23 +35,37 @@ def _alexa_parse(domain):
 
 def _alexa_cleanup(data):
     
-    data['rank'] = data['rank'].str.replace(',','')
-    data['bounce_rate'] = data.bounce_rate.str.replace('%','')
-    data['search_visits'] = data.search_visits.str.replace('%','')
-    data['sites_linkin'] = data['sites_linkin'].fillna(0).str.replace(',','')
-    data['branded_search'] = data['branded_search'].fillna(0).astype(int)
+    test = test.replace('-','0')
+    test['bounce_rate'] = test.bounce_rate.str.replace('%','')
+    test['rank'] = test['rank'].str.replace(',','')
+    test.loc[test['country_rank'].str.contains('%')] = '0'
+    test['country_rank'] = test['country_rank'].str.replace(',','')
+    test['bounce_rate'] = test.bounce_rate.str.replace('%','')
+    test['search_visits'] = test.search_visits.str.replace('%','')
+    test['sites_linkin'] = test['sites_linkin'].fillna(0).str.replace(',','')
+    test['branded_search'] = test['branded_search'].fillna(0).astype(int)
 
     l = []
 
-    for i in data.avg_time.str.split(':'):
+    for i in test.avg_time.str.split(':'):
         try:
             l.append((int(i[0]) * 60) + int(i[1]))
         except:
             l.append(np.nan)
 
-    data['avg_time'] = l
+    test['avg_time'] = l
+    test['avg_time'] = test['avg_time'].fillna(0)
 
-    data['avg_time'] = data['avg_time'].fillna(0)
+    test['rank'] = test['country_rank'].astype(int)
+    test['country_rank'] = test['country_rank'].astype(int)
+    test['bounce_rate'] = test['bounce_rate'].astype(float)
+    test['search_visits'] = test['search_visits'].astype(float)
+    test['avg_time'] = test['avg_time'].astype(int)
+    test['sites_linkin'] = test['sites_linkin'].astype(int)
+    test['branded_search'] = test['branded_search'].astype(int)
+    test['avg_pageviews'] = test['avg_pageviews'].astype(float)
+    
+    return test
 
 
 def alexa_parser(domains):
