@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from bs4 import BeautifulSoup
 
 def _alexa_parse(domain):
@@ -31,6 +32,28 @@ def _alexa_parse(domain):
     
     return l
 
+
+def _alexa_cleanup(data):
+    
+    data['rank'] = data['rank'].str.replace(',','')
+    data['bounce_rate'] = data.bounce_rate.str.replace('%','')
+    data['search_visits'] = data.search_visits.str.replace('%','')
+    data['sites_linkin'] = data['sites_linkin'].fillna(0).str.replace(',','')
+    data['branded_search'] = data['branded_search'].fillna(0).astype(int)
+
+    l = []
+
+    for i in data.avg_time.str.split(':'):
+        try:
+            l.append((int(i[0]) * 60) + int(i[1]))
+        except:
+            l.append(np.nan)
+
+    data['avg_time'] = l
+
+    data['avg_time'] = data['avg_time'].fillna(0)
+
+
 def alexa_parser(domains):
     
     '''Alexa Parser
@@ -58,5 +81,7 @@ def alexa_parser(domains):
                     'search_visits',
                     'sites_linkin',
                     'branded_search']
+    
+    temp = _alexa_cleanup(temp)
     
     return temp
