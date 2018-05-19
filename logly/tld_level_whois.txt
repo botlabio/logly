@@ -421,7 +421,7 @@ nike,whois.nic.nike
 ninja,whois.nic.ninja
 nl,whois.domain-registry.nl
 no,whois.norid.no
-northwesternmutual,northwesternmutual.whois-servers.net. 600 in cname whois.nic.northwesternmutual
+northwesternmutual,northwesternmutual.whois-servers.net
 now,whois.nic.now
 nu,whois.iis.nu
 nyc,whois.nic.nyc
